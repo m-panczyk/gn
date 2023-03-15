@@ -1,4 +1,7 @@
 ﻿using Avalonia.Controls;
+using Mapsui;
+using gn.Mapsui;
+
 namespace gn.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
@@ -12,4 +15,12 @@ public class MainWindowViewModel : ViewModelBase
     { 
         new Window().Show();
     } 
+    
+    private Map _mainMap = new MapWritable(); 
+       public Map mainMap{
+        get => _mainMap;
+        set => _mainMap = value;
+    } 
+
+    
 }

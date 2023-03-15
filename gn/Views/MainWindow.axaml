@@ -16,7 +16,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <StackPanel Orientation="Horizontal">
+    <Panel>
         <mapsui:MapControl Name="mapControl"/>
         <StackPanel Orientation="Vertical">
             <Menu>
@@ -30,9 +30,9 @@
                     <MenuItem Header="Remove"/>
                     <MenuItem Header="Clear"/>
                 </MenuItem>
-            </Menu>
             <Button Command="{Binding LoginButtonClick}" Content="{Binding LoginStatus}"/>
+            </Menu>
         </StackPanel>
-       </StackPanel> 
+       </Panel> 
 
 </Window>
