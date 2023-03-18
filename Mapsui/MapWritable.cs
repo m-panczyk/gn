@@ -6,13 +6,35 @@ using Mapsui.Nts;
 namespace gn.Mapsui;
 public class MapWritable : Map
 {
-    public WritableLayer writableLayer;
+    
+    private WritableLayer writableLayer
+    {
+        get
+        {
+            return (WritableLayer)this.Layers[1];
+        }
+    } 
     public MapWritable()
     {
+        Init();
+    }
+    public MapWritable(MPoint location)
+    {
+        Init();
+        this.writableLayer.Add(new PointFeature(location));
+    }
+    public MapWritable(MPoint[] locations)
+    {
+        Init();
+        foreach (MPoint location in locations)
+        {
+            this.writableLayer.Add(new PointFeature(location));
+        }
+    }
+    private void Init(){
         this.Layers.Add(OpenStreetMap.CreateTileLayer());
-        this.writableLayer = new WritableLayer();
-        this.writableLayer.Add(new PointFeature(new MPoint(1995077.8129240521,6562700.142728554)));
-        this.Layers.Add(writableLayer);
+        this.Layers.Add(new WritableLayer());
+
     }
 
 }

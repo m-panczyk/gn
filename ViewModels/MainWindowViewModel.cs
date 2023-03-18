@@ -13,14 +13,19 @@ public class MainWindowViewModel : ViewModelBase
     }
     public void LoginButtonClick()
     { 
-        new Window().Show();
-    } 
-    
-    private Map _mainMap = new MapWritable(); 
-       public Map mainMap{
-        get => _mainMap;
-        set => _mainMap = value;
-    } 
-
+        //new LoginWindow().Show();
+    }
+    public void ExitCommand()
+    {
+        System.Environment.Exit(0);
+    }
+    public void ZoomToFullExtent()
+    {
+        //mapControl.Map.ZoomToBox(mapControl.Map.Envelope);
+    }
+    public void AboutCommand()
+    {
+        //new AboutWindow().Show();
+    }
     
 }

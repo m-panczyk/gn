@@ -3,7 +3,9 @@
         xmlns:vm="using:gn.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:mapsui="clr-namespace:Mapsui.UI.Avalonia;assembly=Mapsui.UI.Avalonia"
+        xmlns:avaloniaMapsui="clr-namespace:Mapsui.UI.Avalonia;assembly=Mapsui.UI.Avalonia"
+        xmlns:local="clr-namespace:gn.Mapsui"
+        xmlns:Mapsui="clr-namespace:Mapsui;assembly=Mapsui"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="gn.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -15,24 +17,30 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
     <Panel>
-        <mapsui:MapControl Name="mapControl"/>
-        <StackPanel Orientation="Vertical">
-            <Menu>
-                <MenuItem Header="File">
-                    <MenuItem Header="Open"/>
-                    <MenuItem Header="Save"/>
-                    <MenuItem Header="Exit"/>
-                </MenuItem>
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Add"/>
-                    <MenuItem Header="Remove"/>
-                    <MenuItem Header="Clear"/>
-                </MenuItem>
+    <local:MainMapControl Name="mainMapControl" />
+        <Menu VerticalAlignment="Top" HorizontalAlignment="Left">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Zoom to full extent" Command="{Binding ZoomToFullExtentCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Command="{Binding AboutCommand}"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
             <Button Command="{Binding LoginButtonClick}" Content="{Binding LoginStatus}"/>
-            </Menu>
+            <ItemsControl Items="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding showNote}" Content="{Binding noteName}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl> 
+
         </StackPanel>
-       </Panel> 
+    </Panel>
 
 </Window>

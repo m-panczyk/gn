@@ -10,9 +10,8 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        InitializeComponent();
-        //mapControl.Map = new MapWritable();
-       mapControl.Map.Layers.Add(OpenStreetMap.CreateTileLayer()); 
+      InitializeComponent();
+      //mapControl.Map = new MapWritable(Default.defLocation);
     } 
 
 }
