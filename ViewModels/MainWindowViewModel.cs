@@ -1,31 +1,48 @@
-﻿using Avalonia.Controls;
-using Mapsui;
+﻿using System;
+using System.Collections.ObjectModel;
 using gn.Mapsui;
+using gn.Models;
 
 namespace gn.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    private MainMapControl MainMapControlInstance { get; }
+    
+
     string _loginStatus = "Not logged in";
     public string LoginStatus{
         get => _loginStatus;
         set => _loginStatus = value;
     }
-    public void LoginButtonClick()
-    { 
+
+    public ObservableCollection<Note> Notes { get; }
+
+    public void LoginButtonClick() { 
         //new LoginWindow().Show();
     }
-    public void ExitCommand()
-    {
+    public void ExitCommand() {
         System.Environment.Exit(0);
     }
-    public void ZoomToFullExtent()
-    {
-        //mapControl.Map.ZoomToBox(mapControl.Map.Envelope);
+    public void ZoomToFullExtent() {
+        MainMapControlInstance.Navigator.ZoomTo(100);
+        
     }
-    public void AboutCommand()
-    {
+    public void AboutCommand() {
         //new AboutWindow().Show();
+    }
+
+
+    public MainWindowViewModel()
+    {
+        MainMapControlInstance = new MainMapControl();
+        MainMapControlInstance.Navigator.CenterOn(Default.defLocation);
+        Notes = new ObservableCollection<Note>();
+        for (int i = 0; i < 15; i++)
+        {
+            Note n = new Note();
+            Notes.Add(new Note(i));
+        }
     }
     
 }
