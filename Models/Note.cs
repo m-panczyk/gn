@@ -14,18 +14,6 @@ public class Note
 
     public MPoint Location { get; set; }
 
-    public Note()
-    {
-        Title = "smaple Note";
-        Content = "jamal did nothing wrong";
-        CreationData = new CreationData();
-        CreationData.Date = DateTime.Now;
-        CreationData.UserId = 123;
-        ModificationData = new ModificationData();
-        ModificationData.Date = DateTime.Now;
-        ModificationData.UserId = 123;
-    }
-
     public Note(int id)
     {
         Id = id;

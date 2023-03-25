@@ -3,8 +3,7 @@
         xmlns:vm="using:gn.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:m="clr-namespace:Mapsui.UI.Avalonia;assembly=Mapsui.UI.Avalonia"
-        xmlns:local="clr-namespace:gn.Mapsui"
+        xmlns:eventBinder="clr-namespace:EventBinder;assembly=EventBinder.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="gn.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -33,17 +32,16 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
             <Button Command="{Binding LoginButtonClick}" Content="{Binding LoginStatus}"/>
             <TextBox Name="SearchBox" Watermark="Search"/>
-            <ListBox Items="{Binding Notes}">
-                <ListBox.ItemTemplate>
+            <!--<ContentControl Content="{Binding Notes}"/>-->
+            <ListBox Items="{Binding Notes}" Selection="{Binding NoteSelection}"
+                     DoubleTapped="{eventBinder:EventBinding NoteDoubleTapped, $0, $1}"> <!--fake error-->
+                
+                <ListBox.ItemTemplate> 
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Title}"/>
-                            <Button Content="Show" Command="{Binding ShowNote}"/>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Title}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
         </StackPanel>
     </Panel>
 
