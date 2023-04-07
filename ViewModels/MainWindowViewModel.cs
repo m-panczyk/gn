@@ -52,6 +52,11 @@ public class MainWindowViewModel : ViewModelBase
         noteWindow.Show();
     }
 
+    public void AddNote()
+    {
+        ShowNote(new Note(Notes.Count+1));
+    }
+
     public  void NoteDoubleTapped(object sender, RoutedEventArgs e)
     {
         Console.WriteLine("dt");

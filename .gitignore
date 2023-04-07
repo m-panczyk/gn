@@ -475,3 +475,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+.vscode/tasks.json
+.vscode/launch.json
+.idea/.idea.gn.dir/.idea/vcs.xml
+.idea/.idea.gn.dir/.idea/encodings.xml
+.idea/.idea.gn.dir/.idea/indexLayout.xml
+.idea/.idea.gn.dir/.idea/avalonia.xml

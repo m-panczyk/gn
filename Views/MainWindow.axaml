@@ -35,13 +35,14 @@
             <!--<ContentControl Content="{Binding Notes}"/>-->
             <ListBox Items="{Binding Notes}" Selection="{Binding NoteSelection}"
                      DoubleTapped="{eventBinder:EventBinding NoteDoubleTapped, $0, $1}"> <!--fake error-->
-                
                 <ListBox.ItemTemplate> 
                     <DataTemplate>
                         <TextBlock Text="{Binding Title}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <Button Name="NewNote" Content="ADD" Command="{Binding AddNote}"/>
+            <Button Name="RemoveNote" Content="DEL" Command="{Binding RemoveNote}"></Button>
         </StackPanel>
     </Panel>
 
