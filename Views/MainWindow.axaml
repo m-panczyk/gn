@@ -33,7 +33,7 @@
             <Button Command="{Binding LoginButtonClick}" Content="{Binding LoginStatus}"/>
             <TextBox Name="SearchBox" Watermark="Search"/>
             <!--<ContentControl Content="{Binding Notes}"/>-->
-            <ListBox Items="{Binding Notes}" Selection="{Binding NoteSelection}"
+            <ListBox Name="NoteList" Items="{Binding Notes}" Selection="{Binding NoteSelection}"
                      DoubleTapped="{eventBinder:EventBinding NoteDoubleTapped, $0, $1}"> <!--fake error-->
                 <ListBox.ItemTemplate> 
                     <DataTemplate>

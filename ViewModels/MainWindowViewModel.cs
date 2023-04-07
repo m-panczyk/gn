@@ -21,7 +21,6 @@ public class MainWindowViewModel : ViewModelBase
         set => _loginStatus = value;
     }
 
-
     public void LoginButtonClick() { 
         //new LoginWindow().Show();
     }
@@ -45,24 +44,39 @@ public class MainWindowViewModel : ViewModelBase
         MainMapControlInstance.Navigator.CenterOn(e.SelectedItems[0].Location);   
     }
     
+    //public Window? noteWindow { get; set; }
     public void ShowNote(Note note)
     {
         Window noteWindow = new NoteWindow();
         noteWindow.DataContext = new NoteWindowViewModel(note);
         noteWindow.Show();
+        /*
+        if(noteWindow == null){
+            noteWindow = new NoteWindow();
+            noteWindow.DataContext = new NoteWindowViewModel(note);
+            noteWindow.Closed += (sender, args) => noteWindow = null;
+            noteWindow.Show();
+        }
+        else
+        {   
+            noteWindow.DataContext = new NoteWindowViewModel(note);
+            noteWindow.Activate();
+        }*/
     }
 
     public void AddNote()
     {
-        ShowNote(new Note(Notes.Count+1));
+        //TODO: add note to database
     }
 
-    public  void NoteDoubleTapped(object sender, RoutedEventArgs e)
+    public void NoteDoubleTapped(object sender, RoutedEventArgs e)
     {
-        Console.WriteLine("dt");
-        var note = ((ListBox)sender).Selection.SelectedItem as Note;
-        ShowNote(note);
-
+        Note? note = ((ListBox)sender).Selection.SelectedItem as Note;
+        //make sure note is not null
+        if (note != null)
+        {
+            ShowNote(note);
+        }
     }
 
     public MainWindowViewModel(Database db)
