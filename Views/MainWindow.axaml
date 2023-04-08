@@ -11,9 +11,6 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="gn"
         Name="MainWindowName">
-    <Window.Resources>
-        <models:MaxHeightConverter x:Key="MaxHeightConverter"/>
-    </Window.Resources>
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
