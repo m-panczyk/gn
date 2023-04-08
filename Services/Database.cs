@@ -1,20 +1,33 @@
+using System.Collections.ObjectModel;
+using DynamicData;
 using gn.Models;
+using Microsoft.VisualBasic;
 
 namespace gn.Services;
 
 public class Database
 {
 
-    private Note[] _notes;
-    public Note[] GetItems()
+    private Collection<Note> _notes;
+    
+    public Collection<Note> GetItems()
     {
-        _notes = new Note[15];
-        for (int i = 0; i < 15 ; i++)
+        _notes = new Collection<Note>();
+        for (int i = 0; i < 66 ; i++)
         {
             Note note = new Note(i);
-            _notes[i] = note;
+            _notes.Add(note);
         }
 
         return _notes;
+    }
+
+    public void AddItem(Note newNote)
+    {
+        _notes.Add(newNote);
+    }
+    public void RemoveItem(Note oldNote)
+    {
+        _notes.Remove(oldNote);
     }
 }
