@@ -6,7 +6,7 @@ using Mapsui.UI.Avalonia;
 namespace gn.Models;
 public class Note
 {
-     int Id { get; set; }
+    public int Id { get; set; }
     public string Title { get; set; }
     public string Content { get; set; }
      CreationData CreationData { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
@@ -10,6 +11,7 @@ using gn.Mapsui;
 using gn.Models;
 using gn.Services;
 using gn.Views;
+using Mapsui;
 
 namespace gn.ViewModels;
 
@@ -68,6 +70,17 @@ public class MainWindowViewModel : ViewModelBase
 
     public void AddNote()
     {
+        Note note;
+        try
+        {
+            note = new Note(Notes.Last().Id+1);
+        }
+        catch (InvalidOperationException e)
+        {
+            note = new Note(0);
+        }
+        note.Location = new MPoint(MainMapControlInstance.Viewport.CenterX, MainMapControlInstance.Viewport.CenterY);
+        Notes.Add(note);
         //TODO: add note to database
     }
 
@@ -91,6 +104,28 @@ public class MainWindowViewModel : ViewModelBase
         MainMapControlInstance.Navigator!.CenterOn(Default.defLocation);
         //Notes = new NotesViewModel(db.GetItems());
         Notes = new ObservableCollection<Note>(db.GetItems());
+        foreach (var note in Notes)
+        {
+            MainMapControlInstance.AddPoint(note);
+        }
+        //remove point from map when note is removed from list
+        Notes.CollectionChanged += (sender, args) =>
+        {
+            if (args.OldItems != null)
+            {
+                foreach (Note note in args.OldItems)
+                {
+                    MainMapControlInstance.RemovePoint(note.Location);
+                }
+            }
+            if (args.NewItems != null)
+            {
+                foreach (Note note in args.NewItems)
+                {
+                    MainMapControlInstance.AddPoint(note);
+                }
+            }
+        };
         NoteSelection = new SelectionModel<Note>();
         NoteSelection.SelectionChanged += NoteHandler!;
     }

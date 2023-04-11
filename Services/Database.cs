@@ -13,7 +13,7 @@ public class Database
     public Collection<Note> GetItems()
     {
         _notes = new Collection<Note>();
-        for (int i = 0; i < 66 ; i++)
+        for (int i = 0; i < 6 ; i++)
         {
             Note note = new Note(i);
             _notes.Add(note);

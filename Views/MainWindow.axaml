@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:eventBinder="clr-namespace:EventBinder;assembly=EventBinder.Avalonia"
-        xmlns:models="clr-namespace:gn.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="gn.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -37,36 +36,36 @@
                 </MenuItem>
             </Menu>
         </Panel>
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Name="SearchBox" Watermark="Search"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <Button Name="NewNote" Content="ADD" Command="{Binding AddNote}"/>
-                </StackPanel>
-                <ListBox Grid.Row="2" Name="NoteList" Items="{Binding Notes}" Selection="{Binding NoteSelection}"
-                         DoubleTapped="{eventBinder:EventBinding NoteDoubleTapped, $0, $1}"><!--fake error-->
-                    <ListBox.ItemTemplate> 
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="8*"></ColumnDefinition>
-                                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="{Binding Title}"/>
-                                <Button Grid.Column="1" 
-                                        Command="{Binding DataContext.RemoveNote, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                                        CommandParameter="{Binding}">
-                                    <PathIcon Data="M 0,0 L 0,1 L 1,1 L 1,0 L 0,0 M 0.5,0 L 0.5,1 M 0,0.5 L 1,0.5" Width="16" Height="16"/>
-                                </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Name="SearchBox" Watermark="Search"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Button Name="NewNote" Content="ADD" Command="{Binding AddNote}"/>
+            </StackPanel>
+            <ListBox Grid.Row="2" Name="NoteList" Items="{Binding Notes}" Selection="{Binding NoteSelection}"
+                     DoubleTapped="{eventBinder:EventBinding NoteDoubleTapped, $0, $1}"><!--fake error-->
+                <ListBox.ItemTemplate> 
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Title}"/>
+                            <Button Grid.Column="1" 
+                                    Command="{Binding DataContext.RemoveNote, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                    CommandParameter="{Binding}">
+                                <PathIcon Data="M 0,8 L 16,8" Width="16" Height="16" Foreground="Red"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </Grid>
 
 </Window>
