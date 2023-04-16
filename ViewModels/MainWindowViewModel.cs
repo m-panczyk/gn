@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
-using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using gn.Mapsui;
 using gn.Models;
@@ -43,16 +40,18 @@ public class MainWindowViewModel : ViewModelBase
 
     void NoteHandler(object sender, SelectionModelSelectionChangedEventArgs<Note> e)
     {
-        MainMapControlInstance.Navigator!.CenterOn(e.SelectedItems[0].Location);   
+        try{
+        MainMapControlInstance.Navigator!.CenterOn(e.SelectedItems[0].Location);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            //ignore
+        }
     }
     
-    //public Window? noteWindow { get; set; }
+    public Window? noteWindow { get; set; }
     void ShowNote(Note note)
     {
-        Window noteWindow = new NoteWindow();
-        noteWindow.DataContext = new NoteWindowViewModel(note);
-        noteWindow.Show();
-        /*
         if(noteWindow == null){
             noteWindow = new NoteWindow();
             noteWindow.DataContext = new NoteWindowViewModel(note);
@@ -63,7 +62,7 @@ public class MainWindowViewModel : ViewModelBase
         {   
             noteWindow.DataContext = new NoteWindowViewModel(note);
             noteWindow.Activate();
-        }*/
+        }
     }
    
 
@@ -87,8 +86,13 @@ public class MainWindowViewModel : ViewModelBase
     public void RemoveNote(Note note)
     {
         Console.WriteLine("RemoveNote: "+note.Title);
+        if(noteWindow != null && noteWindow.DataContext is NoteWindowViewModel noteWindowViewModel && noteWindowViewModel.note == note)
+        {
+            noteWindow.Close();
+        }
         Notes.Remove(note);
     }
+
 
     public void NoteDoubleTapped(object sender, RoutedEventArgs e)
     {
