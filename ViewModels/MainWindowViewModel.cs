@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
@@ -38,7 +39,7 @@ public class MainWindowViewModel : ViewModelBase
     private ObservableCollection<Note> Notes { get; }
     public SelectionModel<Note> NoteSelection { get; }
 
-    void NoteHandler(object sender, SelectionModelSelectionChangedEventArgs<Note> e)
+    void NoteSelectionHandler(object sender, SelectionModelSelectionChangedEventArgs<Note> e)
     {
         try{
         MainMapControlInstance.Navigator!.CenterOn(e.SelectedItems[0].Location);
@@ -48,6 +49,11 @@ public class MainWindowViewModel : ViewModelBase
             //ignore
         }
     }
+    private void NotesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
+    {
+        MainMapControlInstance.updatePoints(Notes);
+    }
+    
     
     public Window? noteWindow { get; set; }
     void ShowNote(Note note)
@@ -104,35 +110,29 @@ public class MainWindowViewModel : ViewModelBase
     }
     public MainWindowViewModel(Database db)
     {
-        MainMapControlInstance = new MainMapControl();
-        MainMapControlInstance.Navigator!.CenterOn(Default.defLocation);
         //Notes = new NotesViewModel(db.GetItems());
         Notes = new ObservableCollection<Note>(db.GetItems());
+        MainMapControlInstance = new MainMapControl(Notes);
+        MainMapControlInstance.Navigator!.CenterOn(Default.defLocation);
+        MainMapControlInstance.DoubleTapped += MapDoubleTapped;
+        /*
         foreach (var note in Notes)
         {
             MainMapControlInstance.AddPoint(note);
-        }
+        }*/
         //remove point from map when note is removed from list
-        Notes.CollectionChanged += (sender, args) =>
-        {
-            if (args.OldItems != null)
-            {
-                foreach (Note note in args.OldItems)
-                {
-                    MainMapControlInstance.RemovePoint(note.Location);
-                }
-            }
-            if (args.NewItems != null)
-            {
-                foreach (Note note in args.NewItems)
-                {
-                    MainMapControlInstance.AddPoint(note);
-                }
-            }
-        };
+        Notes.CollectionChanged += NotesOnCollectionChanged;
         NoteSelection = new SelectionModel<Note>();
-        NoteSelection.SelectionChanged += NoteHandler!;
+        NoteSelection.SelectionChanged += NoteSelectionHandler!;
     }
+
+    private void MapDoubleTapped(object? sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("map doubletap");
+        AddNote();
+        //TODO: add note to database
+    }
+
 
     public MainWindowViewModel()
     {
