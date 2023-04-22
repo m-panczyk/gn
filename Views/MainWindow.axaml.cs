@@ -38,7 +38,12 @@ public partial class MainWindow : Window
                    db.RemoveItem(oldNote); 
                 }
                 break;
-            
+            case NotifyCollectionChangedAction.Replace:
+                foreach (Note newNote in e.NewItems)
+                {
+                    db.UpdateItem(newNote);
+                }
+                break;
         } 
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
 using Avalonia.Interactivity;
+using DynamicData;
 using gn.Mapsui;
 using gn.Models;
 using gn.Views;
@@ -34,7 +35,6 @@ public class MainWindowViewModel : ViewModelBase
         //new AboutWindow().Show();
     }
 
-    // ReSharper disable once UnusedAutoPropertyAccessor.Local
     private ObservableCollection<Note> Notes { get; }
     public SelectionModel<Note> NoteSelection { get; }
 
@@ -60,12 +60,15 @@ public class MainWindowViewModel : ViewModelBase
         if(noteWindow == null){
             noteWindow = new NoteWindow();
             noteWindow.DataContext = new NoteWindowViewModel(note);
-            noteWindow.Closed += (sender, args) => noteWindow = null;
+            noteWindow.Closed += (sender, args) =>
+            {
+                Notes.Replace(Notes.FirstOrDefault(n => n.Id == note.Id), note);
+                noteWindow = null;
+            };
             noteWindow.Show();
         }
         else
         {   
-            noteWindow.DataContext = new NoteWindowViewModel(note);
             noteWindow.Activate();
         }
     }
@@ -109,17 +112,10 @@ public class MainWindowViewModel : ViewModelBase
     }
     public MainWindowViewModel(ref ObservableCollection<Note> notesList)
     {
-        //Notes = new NotesViewModel(db.GetItems());
         Notes = notesList;
         MainMapControlInstance = new MainMapControl(Notes);
         MainMapControlInstance.Navigator!.CenterOn(Default.defLocation);
         MainMapControlInstance.DoubleTapped += MapDoubleTapped;
-        /*
-        foreach (var note in Notes)
-        {
-            MainMapControlInstance.AddPoint(note);
-        }*/
-        //remove point from map when note is removed from list
         Notes.CollectionChanged += NotesOnCollectionChanged;
         NoteSelection = new SelectionModel<Note>();
         NoteSelection.SelectionChanged += NoteSelectionHandler!;

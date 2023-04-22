@@ -96,6 +96,39 @@ public class Database
     }
     public void RemoveItem(Note oldNote)
     {
-        _notes.Remove(oldNote);
+        using (var connection = new SQLiteConnection(connectionString))
+        {
+            connection.Open();
+            using (var command = new SQLiteCommand(connection))
+            {                                command.CommandText = "DELETE FROM Notes WHERE Id = @id";
+                command.Parameters.AddWithValue("@id", oldNote.Id);
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
+
+    public void UpdateItem(Note note)
+    {
+        using (var connection = new SQLiteConnection(connectionString))
+        {
+            connection.Open();
+            using (var command = new SQLiteCommand(connection))
+            {
+                command.CommandText = "UPDATE Notes SET Title = @title, Content = @content, CreationData_Date = @creationDate, CreationData_UserId = @creationUserId, ModificationData_Date = @modificationDate, ModificationData_UserId = @modificationUserId, Location_X = @locationX, Location_Y = @locationY WHERE Id = @id";
+                command.Parameters.AddWithValue("@title", note.Title);
+                command.Parameters.AddWithValue("@content", note.Content);
+                command.Parameters.AddWithValue("@creationDate", note.CreationData.Date.ToString("yyyy-MM-dd HH:mm:ss"));
+                command.Parameters.AddWithValue("@creationUserId", note.CreationData.UserId);
+                command.Parameters.AddWithValue("@modificationDate", note.ModificationData.Date.ToString("yyyy-MM-dd HH:mm:ss"));
+                command.Parameters.AddWithValue("@modificationUserId", note.ModificationData.UserId);
+                command.Parameters.AddWithValue("@locationX", note.Location.X);
+                command.Parameters.AddWithValue("@locationY", note.Location.Y);
+                command.Parameters.AddWithValue("@id", note.Id);
+                command.ExecuteNonQuery();
+
+            }
+            connection.Close();
+        }
     }
 }
