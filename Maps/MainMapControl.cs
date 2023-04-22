@@ -15,7 +15,7 @@ using Mapsui.UI;
 using Mapsui.UI.Avalonia;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace gn.Mapsui;
+namespace gn.Maps;
 public class MainMapControl : MapControl
 {
     public ObservableCollection<Note> Notes;

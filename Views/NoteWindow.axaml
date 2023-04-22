@@ -12,7 +12,8 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <viewModels:NoteWindowViewModel/>
     </Design.DataContext>
-        <Panel>
-                <TextBox Text="{Binding note.Content}"></TextBox>
-        </Panel>
+        <StackPanel>
+            <TextBox Text="{Binding note.Title}"></TextBox>
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding note.Content}"></TextBox>
+        </StackPanel>
 </Window>

@@ -2,11 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using DynamicData;
-using gn.Mapsui;
+using gn.Maps;
 using gn.Models;
 using gn.Views;
 using Mapsui;
@@ -51,6 +53,7 @@ public class MainWindowViewModel : ViewModelBase
     private void NotesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
     {
         MainMapControlInstance.updatePoints(Notes);
+        
     }
     
     
@@ -88,7 +91,20 @@ public class MainWindowViewModel : ViewModelBase
         }
         note.Location = new MPoint(MainMapControlInstance.Viewport.CenterX, MainMapControlInstance.Viewport.CenterY);
         Notes.Add(note);
-        //TODO: add note to database
+    }
+    public void AddNote(MPoint mapPoint)
+    {
+        Note note;
+        try
+        {
+            note = new Note(Notes.Last().Id+1);
+        }
+        catch (InvalidOperationException e)
+        {
+            note = new Note(0);
+        }
+        note.Location = mapPoint;
+        Notes.Add(note);
     }
 
     public void RemoveNote(Note note)
@@ -123,9 +139,11 @@ public class MainWindowViewModel : ViewModelBase
 
     private void MapDoubleTapped(object? sender, RoutedEventArgs e)
     {
-        Console.WriteLine("map doubletap");
-        AddNote();
-        //TODO: add note to database
+        Console.WriteLine(e.ToString());
+        TappedEventArgs tappedEventArgs = (TappedEventArgs)e;
+        Point tabPoint = tappedEventArgs.GetPosition(MainMapControlInstance);
+        MPoint mapPoint = MainMapControlInstance.Viewport.ScreenToWorld(tabPoint.X,tabPoint.Y);
+        AddNote(mapPoint);
     }
 
 

@@ -1,5 +1,5 @@
 using Mapsui;
-namespace gn.Mapsui
+namespace gn.Maps
 {
     public static class Default
     {

@@ -3,7 +3,7 @@ using Mapsui.Layers;
 using Mapsui.Tiling;
 using Mapsui.Nts;
 //Map class with writable layer and OSM layer
-namespace gn.Mapsui;
+namespace gn.Maps;
 public class MapWritable : Map
 {
     
