@@ -7,7 +7,6 @@ using Avalonia.Controls.Selection;
 using Avalonia.Interactivity;
 using gn.Mapsui;
 using gn.Models;
-using gn.Services;
 using gn.Views;
 using Mapsui;
 
@@ -108,10 +107,10 @@ public class MainWindowViewModel : ViewModelBase
             ShowNote(note);
         }
     }
-    public MainWindowViewModel(Database db)
+    public MainWindowViewModel(ref ObservableCollection<Note> notesList)
     {
         //Notes = new NotesViewModel(db.GetItems());
-        Notes = new ObservableCollection<Note>(db.GetItems());
+        Notes = notesList;
         MainMapControlInstance = new MainMapControl(Notes);
         MainMapControlInstance.Navigator!.CenterOn(Default.defLocation);
         MainMapControlInstance.DoubleTapped += MapDoubleTapped;

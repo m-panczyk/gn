@@ -9,8 +9,8 @@ public class Note
     public int Id { get; set; }
     public string Title { get; set; }
     public string Content { get; set; }
-     CreationData CreationData { get; set; }
-     ModificationData ModificationData { get; set; }
+     public CreationData CreationData { get; set; }
+     public ModificationData ModificationData { get; set; }
 
     public MPoint Location { get; set; }
 

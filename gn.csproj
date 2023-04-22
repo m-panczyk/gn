@@ -25,6 +25,7 @@
     <PackageReference Include="EventBinder.Avalonia" Version="2.5.2" />
     <PackageReference Include="Mapsui.Avalonia" Version="4.0.0-beta.8" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
   </ItemGroup>
 </Project>
