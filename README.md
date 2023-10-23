@@ -1,5 +1,5 @@
 # gn
-gn to aplikacja, która umożliwia tworzenie notatek z geotagami. 
+gn to aplikacja umożliwiająca tworzenie treści i przypisywanie im danych geolokalizacyjnych. Dostępna w publicznym repozytorium. 
 
 Dzięki temu będziesz mógł/mogła łatwo odnaleźć swoje notatki oraz lepiej je zorganizować.
 # O projekcie
