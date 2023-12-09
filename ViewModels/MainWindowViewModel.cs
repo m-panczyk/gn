@@ -141,8 +141,8 @@ public class MainWindowViewModel : ViewModelBase
     {
         Console.WriteLine(e.ToString());
         TappedEventArgs tappedEventArgs = (TappedEventArgs)e;
-        Point tabPoint = tappedEventArgs.GetPosition(MainMapControlInstance);
-        MPoint mapPoint = MainMapControlInstance.Viewport.ScreenToWorld(tabPoint.X,tabPoint.Y);
+        Point tapPoint = tappedEventArgs.GetPosition(MainMapControlInstance);
+        MPoint mapPoint = MainMapControlInstance.Viewport.ScreenToWorld(tapPoint.X,tapPoint.Y);
         AddNote(mapPoint);
     }
 

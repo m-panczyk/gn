@@ -81,8 +81,8 @@ public class MainMapControl : MapControl
     public void updatePoints(ObservableCollection<Note> notesList)
     {
         Notes = notesList;
-        MemoryLayer mLayer = Map.Layers[1] as MemoryLayer;
-        mLayer.Features = new MemoryProvider(GetNotes()).Features;
+        MemoryLayer layer = Map.Layers[1] as MemoryLayer;
+        layer.Features = new MemoryProvider(GetNotes()).Features;
     }
 
 }

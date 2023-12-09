@@ -50,9 +50,7 @@ public class Note : INotifyPropertyChanged
 
     public override string ToString()
     {
-        String s = Title + "\n";
-        s += Content + "\n";
-        return s;
+        return Title + "\n" + Content + "\n";
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
