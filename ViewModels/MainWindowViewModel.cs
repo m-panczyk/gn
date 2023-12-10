@@ -23,18 +23,15 @@ public class MainWindowViewModel : ViewModelBase
     public string LoginStatus { get; set; } = "Not logged in";
 
     public void LoginButtonClick() { 
-        //new LoginWindow().Show();
     }
     public void ExitCommand() {
         Environment.Exit(0);
     }
     public void ZoomToFullExtent() {
-        //never called before constructor
         MainMapControlInstance.Navigator!.ZoomTo(100);
         
     }
     public void AboutCommand() {
-        //new AboutWindow().Show();
     }
 
     private ObservableCollection<Note> Notes { get; }
@@ -43,12 +40,9 @@ public class MainWindowViewModel : ViewModelBase
     void NoteSelectionHandler(object sender, SelectionModelSelectionChangedEventArgs<Note> e)
     {
         try{
-        MainMapControlInstance.Navigator!.CenterOn(e.SelectedItems[0].Location);
+            MainMapControlInstance.Navigator!.CenterOn(e.SelectedItems[0].Location);
         }
-        catch (ArgumentOutOfRangeException)
-        {
-            //ignore
-        }
+        catch (ArgumentOutOfRangeException) { }
     }
     private void NotesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
     {
@@ -120,7 +114,6 @@ public class MainWindowViewModel : ViewModelBase
 
     public void NoteDoubleTapped(object sender, RoutedEventArgs e)
     {
-        //make sure note is not null
         if (((ListBox)sender).Selection.SelectedItem is Note note)
         {
             ShowNote(note);

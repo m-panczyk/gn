@@ -21,7 +21,6 @@
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <!--<local:MainMapControl x:Name="MainMapControlInstance" />-->
         <Panel>
             <ContentControl Content="{Binding MainMapControlInstance}"/>
             <Menu  VerticalAlignment="Top" HorizontalAlignment="Left">
