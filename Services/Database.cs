@@ -100,7 +100,8 @@ public class Database
         {
             connection.Open();
             using (var command = new SQLiteCommand(connection))
-            {                                command.CommandText = "DELETE FROM Notes WHERE Id = @id";
+            {                                
+                command.CommandText = "DELETE FROM Notes WHERE Id = @id";
                 command.Parameters.AddWithValue("@id", oldNote.Id);
                 command.ExecuteNonQuery();
             }

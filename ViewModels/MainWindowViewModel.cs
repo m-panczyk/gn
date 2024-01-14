@@ -17,26 +17,31 @@ namespace gn.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private MainMapControl MainMapControlInstance { get; }
-
-
-    public string LoginStatus { get; set; } = "Not logged in";
-
-    public void LoginButtonClick() { 
-    }
-    public void ExitCommand() {
-        Environment.Exit(0);
-    }
-    public void ZoomToFullExtent() {
-        MainMapControlInstance.Navigator!.ZoomTo(100);
-        
-    }
-    public void AboutCommand() {
-    }
-
     private ObservableCollection<Note> Notes { get; }
     public SelectionModel<Note> NoteSelection { get; }
+    private MainMapControl MainMapControlInstance { get; }
+    public Window? noteWindow { get; set; }
 
+    public MainWindowViewModel(ref ObservableCollection<Note> notesList)
+    {
+        Notes = notesList;
+        Notes.CollectionChanged += NotesOnCollectionChanged;
+        
+        NoteSelection = new SelectionModel<Note>();
+        NoteSelection.SelectionChanged += NoteSelectionHandler!;
+        
+        MainMapControlInstance = new MainMapControl(Notes);
+        MainMapControlInstance.Navigator!.CenterOn(Default.defLocation);
+        MainMapControlInstance.DoubleTapped += MapDoubleTapped;
+    }
+    public MainWindowViewModel()
+    {
+        throw new NotImplementedException();
+    }
+    private void NotesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
+    {
+        MainMapControlInstance.updatePoints(Notes);
+    }
     void NoteSelectionHandler(object sender, SelectionModelSelectionChangedEventArgs<Note> e)
     {
         try{
@@ -44,14 +49,21 @@ public class MainWindowViewModel : ViewModelBase
         }
         catch (ArgumentOutOfRangeException) { }
     }
-    private void NotesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
+    public void NoteDoubleTapped(object sender, RoutedEventArgs e)
     {
-        MainMapControlInstance.updatePoints(Notes);
-        
+        if (((ListBox)sender).Selection.SelectedItem is Note note)
+        {
+            ShowNote(note);
+        }
     }
-    
-    
-    public Window? noteWindow { get; set; }
+    private void MapDoubleTapped(object? sender, RoutedEventArgs e)
+    {
+        Console.WriteLine(e.ToString());
+        TappedEventArgs tappedEventArgs = (TappedEventArgs)e;
+        Point tapPoint = tappedEventArgs.GetPosition(MainMapControlInstance);
+        MPoint mapPoint = MainMapControlInstance.Viewport.ScreenToWorld(tapPoint.X,tapPoint.Y);
+        AddNote(mapPoint);
+    }
     void ShowNote(Note note)
     {
         if(noteWindow == null){
@@ -69,9 +81,6 @@ public class MainWindowViewModel : ViewModelBase
             noteWindow.Activate();
         }
     }
-   
-
-
     public void AddNote()
     {
         Note note;
@@ -100,7 +109,6 @@ public class MainWindowViewModel : ViewModelBase
         note.Location = mapPoint;
         Notes.Add(note);
     }
-
     public void RemoveNote(Note note)
     {
         Console.WriteLine("RemoveNote: "+note.Title);
@@ -110,38 +118,14 @@ public class MainWindowViewModel : ViewModelBase
         }
         Notes.Remove(note);
     }
-
-
-    public void NoteDoubleTapped(object sender, RoutedEventArgs e)
-    {
-        if (((ListBox)sender).Selection.SelectedItem is Note note)
-        {
-            ShowNote(note);
-        }
+    public void ZoomToFullExtent() {
+        MainMapControlInstance.Navigator!.ZoomTo(100);
     }
-    public MainWindowViewModel(ref ObservableCollection<Note> notesList)
-    {
-        Notes = notesList;
-        MainMapControlInstance = new MainMapControl(Notes);
-        MainMapControlInstance.Navigator!.CenterOn(Default.defLocation);
-        MainMapControlInstance.DoubleTapped += MapDoubleTapped;
-        Notes.CollectionChanged += NotesOnCollectionChanged;
-        NoteSelection = new SelectionModel<Note>();
-        NoteSelection.SelectionChanged += NoteSelectionHandler!;
+    public void ExitCommand() {
+        Environment.Exit(0);
+    }
+    public void AboutCommand() {
+        //TODO: implement
     }
 
-    private void MapDoubleTapped(object? sender, RoutedEventArgs e)
-    {
-        Console.WriteLine(e.ToString());
-        TappedEventArgs tappedEventArgs = (TappedEventArgs)e;
-        Point tapPoint = tappedEventArgs.GetPosition(MainMapControlInstance);
-        MPoint mapPoint = MainMapControlInstance.Viewport.ScreenToWorld(tapPoint.X,tapPoint.Y);
-        AddNote(mapPoint);
-    }
-
-
-    public MainWindowViewModel()
-    {
-        throw new NotImplementedException();
-    }
 }
